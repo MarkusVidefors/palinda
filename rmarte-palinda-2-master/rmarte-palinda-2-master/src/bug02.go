@@ -15,7 +15,7 @@ func main() {
 	}
 	close(ch)
 
-    <-done
+	<-done
 }
 
 // Print prints all numbers sent on the channel.
@@ -25,5 +25,5 @@ func Print(ch <-chan int, done chan bool) {
 		time.Sleep(10 * time.Millisecond) // simulate processing time
 		fmt.Println(n)
 	}
-    done <- true
+	done <- true
 }
