@@ -9,7 +9,7 @@ func fibonacci() func() int {
 	next := 1
 	return func() int {
 		ret := cur
-		cur, next = next, cur + next
+		cur, next = next, cur+next
 		return ret
 	}
 }
