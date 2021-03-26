@@ -28,14 +28,14 @@ func main() {
 		go Produce("p"+strconv.Itoa(i), strings/producers, ch, wgp)
 	}
 
-    wgc := new(sync.WaitGroup)
-    wgc.Add(consumers)
+	wgc := new(sync.WaitGroup)
+	wgc.Add(consumers)
 	for i := 0; i < consumers; i++ {
 		go Consume("c"+strconv.Itoa(i), ch, wgc)
 	}
 	wgp.Wait() // Wait for all producers to finish.
 	close(ch)
-    wgc.Wait()
+	wgc.Wait()
 	fmt.Println("time:", time.Now().Sub(before))
 }
 
@@ -54,7 +54,7 @@ func Consume(id string, ch <-chan string, wg *sync.WaitGroup) {
 		fmt.Println(id, "received", s)
 		RandomSleep(100) // Simulate time to consume data.
 	}
-    wg.Done()
+	wg.Done()
 }
 
 // RandomSleep waits for x ms, where x is a random number, 0 â‰¤ x < n,
