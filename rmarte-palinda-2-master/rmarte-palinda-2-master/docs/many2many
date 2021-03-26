@@ -1,0 +1,40 @@
+1. if we switch the order of wait and close the program will panic if the producers haven't finished sending to the channel yet. Since they would be trying to send to a closed channel. Result from modifying code:
+panic: send on closed channel
+
+2. if we close the channel at the end of the producer function the program will once again panic due to attempting to send on a closed channel. This time it would be because the other producer goroutines which haven't completed yet would be attempting to send to the channel that the fastest one has closed. Result from modifying code:
+c1 received p3:0
+c0 received p0:0
+c1 received p3:1
+c0 received p2:0
+c1 received p1:0
+c0 received p3:2
+c0 received p0:1
+c1 received p1:1
+c0 received p2:1
+c0 received p3:3
+c1 received p0:2
+c0 received p1:2
+c1 received p2:2
+c1 received p0:3
+c0 received p3:4
+c0 received p2:3
+c1 received p0:4
+c1 received p1:3
+c0 received p3:5
+c1 received p0:5
+c0 received p2:4
+c0 received p2:5
+c1 received p1:4
+c1 received p0:6
+c0 received p3:6
+c0 received p1:5
+c1 received p2:6
+c1 received p1:6
+c1 received p0:7
+panic: send on closed channel
+
+3. There won't be any visible change. There isnt really any need to close the channel this just means it won't be possible to send anything to it afterwards, but since all producers are done that's not going to happen anyway.
+
+4. The program will function as previously, just with 2 more consumers receiving data.
+
+5. No, we are only making sure to wait until all producers have finished this does not mean that all the consumers will be able to finish in the same time.
